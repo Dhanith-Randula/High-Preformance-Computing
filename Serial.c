@@ -2,6 +2,8 @@
 #include <time.h>
 #include <string.h>
 #include <openssl/sha.h>
+#include <omp.h>
+
 
 char target_hash[] = "24f916304a3a9fc2213185a5bce0c723813a6425bb26958647059b208f3f5420"; // find the password
 const char charset[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; // Character set
@@ -39,7 +41,7 @@ int main() {
 
         printf("Trying length %d: %lld combinations\n", length, combinations);
 
-        clock_t start_time = omp_get_wtime();
+        double start_time = omp_get_wtime();
 
         for (long long i = 0; i < combinations; i++) {
             if (found) break;
@@ -54,7 +56,7 @@ int main() {
             }
         }
 
-        clock_t end_time = omp_get_wtime();
+        double end_time = omp_get_wtime();
         double time_taken = (end_time - start_time);  // Time taken for this length
         printf("Time taken for length %d: %f seconds\n", length, time_taken);
 
@@ -68,6 +70,12 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
+//gcc Serial.c -o Serial -lcrypto -fopenmp
 
 //gcc Serial.c -o Serial -lcrypto
 //./Serial
