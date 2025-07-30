@@ -16,7 +16,7 @@ void sha256(const char *input, char *output) {
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         sprintf(output + (i * 2), "%02x", hash[i]);
     }
-    output[64] = '\0'; // null terminate string
+    output[64] = '\0';
 }
 
 // Converts a number (like 12345) into a password (like "abc")
@@ -31,13 +31,13 @@ void index_to_password(long long index, int length, char *password) {
 int main() {
     char password[11];
     char hash_out[65];
-    int found = 0;
-    double total_start = omp_get_wtime();  // Total time start
+    int found = 0; //flag
+    double total_start = omp_get_wtime(); //get wall time start
 
 
     for (int length = 0; length <= 10; length++) {
         long long combinations = 1;
-        for (int i = 0; i < length; i++) combinations *= charset_len;
+        for (int i = 0; i < length; i++) combinations *= charset_len; //COMBINATIONS of 62*LENGTH
 
         printf("Trying length %d: %lld combinations\n", length, combinations);
 
@@ -46,8 +46,8 @@ int main() {
         for (long long i = 0; i < combinations; i++) {
             if (found) break;
 
-            index_to_password(i, length, password);
-            sha256(password, hash_out);
+            index_to_password(i, length, password); //convert number to password
+            sha256(password, hash_out); // get hash of that password
 
             if (strcmp(hash_out, target_hash) == 0) {
                 printf("Password found: %s\n", password);

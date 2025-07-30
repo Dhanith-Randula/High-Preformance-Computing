@@ -157,7 +157,7 @@ int main() {
 
     double total_start = omp_get_wtime();  // Total time start
 
-    #pragma omp parallel for schedule(dynamic)
+    #pragma omp parallel for schedule(dynamic) // according to load divide to threads
     for (int length = 1; length <= MAX_LEN; length++) {
         if (found) continue;  // Early exit if already found
         // Calculate combinations for this length
@@ -203,13 +203,8 @@ int main() {
 
         printf("Length %d: Time taken = %.3f seconds\n", length, milliseconds / 1000.0f);
 
-        // Check results
-        // if (h_found) {
-        //     char h_result[MAX_LEN + 1] = {0};
-        //     cudaMemcpyFromSymbol(h_result, d_result, length + 1);
-        //     printf("\nPASSWORD FOUND: %s\n", h_result);
-        //     return 0;
-        // }
+       
+        
 
         if (h_found) {
         #pragma omp critical

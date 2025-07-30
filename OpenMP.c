@@ -43,7 +43,7 @@ int main() {
 
         double start_time = omp_get_wtime(); 
         //Uses multiple CPU cores (with OpenMP) to check combinations faster
-        #pragma omp parallel for private(password, hash_out) shared(found)
+        #pragma omp parallel for private(password, hash_out) shared(found) 
         for (long long i = 0; i < combinations; i++) {
             if (found) continue;
 
@@ -60,7 +60,7 @@ int main() {
         }
 
         double end_time = omp_get_wtime(); 
-        double time_taken = (end_time - start_time);  // Time taken for this length
+        double time_taken = (end_time - start_time); 
         printf("Time taken for length %d: %f seconds\n", length, time_taken); 
 
         if (found) break;

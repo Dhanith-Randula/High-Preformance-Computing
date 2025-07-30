@@ -172,8 +172,8 @@ int main() {
         cudaEventRecord(start);
 
         // Configure kernel launch
-        int threads_per_block = 256;
-        unsigned long long max_blocks = 65535;
+        int threads_per_block = 256;  // cuda block
+        unsigned long long max_blocks = 65535;  //Maximum number of blocks per kernel
         unsigned long long chunk_size = threads_per_block * max_blocks;
         unsigned long long chunks = (combinations + chunk_size - 1) / chunk_size;
 
@@ -185,7 +185,7 @@ int main() {
             int blocks = (end_idx - start_idx + threads_per_block - 1) / threads_per_block;
             crack_password<<<blocks, threads_per_block>>>(length, start_idx, end_idx);
             
-            cudaMemcpyFromSymbol(&h_found, d_found, sizeof(unsigned int));
+            cudaMemcpyFromSymbol(&h_found, d_found, sizeof(unsigned int)); //copy to cpu memory
         }
 
         cudaEventRecord(stop);
